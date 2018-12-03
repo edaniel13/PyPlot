@@ -1,0 +1,9 @@
+bin/debug/CMakeCache.txt
+bin/debug/CMakeFiles
+bin/debug/CMakeFiles/*
+bin/debug/Makefile
+bin/debug/cmake_install.cmake
+bin/debug/misc
+bin/debug/misc/*
+bin/debug/src
+bin/debug/src/*
