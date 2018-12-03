@@ -1,1 +1,1 @@
-cmake -H../../ -B. -DCMAKE_INSTALL_PREFIX:PATH=/usr/local/PyPlot
+cmake -H../../ -B. -DCMAKE_INSTALL_PREFIX:PATH=/opt/PyPlot
