@@ -4,4 +4,5 @@ add_executable(Test main.cpp)
 
 INSTALL(TARGETS Test DESTINATION bin)
 
+add_subdirectory(python)
 add_subdirectory(ui)
