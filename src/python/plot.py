@@ -26,6 +26,41 @@ def toneWithNoise(Fs=2048.0, nFFT=2048):
 
         #yield x, data
 
+def BPSKNoise(Fs=2048.0, nFFT=2048):
+    """
+    BPSK: s(t) = b(t) * A * cos(2 * pi * freq * t)
+      where: A = sqrt(2*P) for R = 1 ohm
+    """
+    length = 1.0  # seconds
+    freq = 500.0  # Hz
+    samplesPerSymbol = 8  # this needs to be an even multiple of the total signal length (length / (1.0/Fs))
+
+    t = np.arange(0, length, 1.0/Fs)
+
+    #
+    # Create the symbols and a new signal modulated by the symbols
+    #
+    symbolsChoices = [-1, 1]
+    symbols = np.random.choice(symbolsChoices, len(t) / samplesPerSymbol)
+    bSig = np.empty((symbols.size * samplesPerSymbol,), dtype=symbols.dtype)
+    currentSymbol = 0
+    for i in range(0, len(bSig)):
+        bSig[i] = symbols[currentSymbol]
+        if (i + 1) % samplesPerSymbol == 0:
+            currentSymbol += 1
+
+    carrier = np.cos(2 * np.pi * freq * t)
+    sig = 5 * bSig * carrier
+
+    x = np.arange(-Fs/2.0, Fs/2.0, Fs/nFFT)
+
+    #noise = np.random.normal(0, 1, nFFT)
+    #data = 10 * np.log10(np.power(np.abs(np.fft.fftshift(np.fft.fft(sig + noise))), 2) / (nFFT * Fs))
+
+    while True:
+        noise = np.random.normal(0, 1, nFFT)
+        yield x, 10 * np.log10(np.power(np.abs(np.fft.fftshift(np.fft.fft(sig + noise))), 2) / (nFFT * Fs))
+
 def run(niter=1000, doblit=True):
     fig, ax = plt.subplots(1, 1)
     #ax.set_aspect('equal')
